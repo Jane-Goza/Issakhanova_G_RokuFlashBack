@@ -1,0 +1,268 @@
+<template>
+  <header id="header">
+    <div class="logo">
+      <router-link to="index.html">
+        <img src="../assets/roku-logo-svg2.svg" alt="Roku Logo"/>
+      </router-link>
+    </div>
+
+    <div class="menu-btn">
+      <span class="menu-btn__burger"></span>
+    </div>
+
+    <nav class="nav-mobile">
+      <h2 class="hidden">Nav - mobile</h2>
+      <ul class="menu-nav">
+        <li class="menu-nav__item">
+          <router-link class="menu-nav__link" to="/movies">
+            Movies
+          </router-link>
+        </li>
+        <li class="menu-nav__item">
+          <router-link class="menu-nav__link" to="/musics">
+            Musics
+          </router-link>
+        </li>
+        <li v-if="accessToken !== undefined" class="menu-nav__item">
+          <router-link class="menu-nav__link" to="/musics">
+            Sign In
+          </router-link>
+        </li>
+      </ul>
+    </nav>
+
+    <nav class="nav-desktop">
+      <h2 class="hidden">Nav - Desktop</h2>
+      <ul class="menu-nav-desktop">
+        <li class="menu-nav__item">
+          <router-link class="menu-nav__link" to="/movies">
+            Movies
+          </router-link>
+        </li>
+        <li class="menu-nav__item">
+          <router-link class="menu-nav__link" to="/audios">
+            Musics
+          </router-link>
+        </li>
+        <li v-if="!accessToken" class="menu-nav__item">
+          <router-link class="menu-nav__link" to="/authorization">
+            Sign In
+          </router-link>
+        </li>
+      </ul>
+    </nav>
+  </header>
+</template>
+
+<script>
+
+export default {
+  name: 'header',
+  data(){
+    return {
+      accessToken: localStorage.getItem('accessToken')
+    }
+  }
+}
+</script>
+
+<style scoped lang="scss">
+header {
+  max-width: 1280px;
+  display: flex;
+  justify-content: space-between;
+  margin: 40px 20px;
+  margin-left: auto;
+  margin-right: auto;
+
+  z-index: 2;
+}
+
+.logo {
+  width: 93px;
+}
+
+.menu-btn {
+  display: block;
+  position: relative;
+  z-index: 1;
+  height: 20px;
+  width: 28px;
+  cursor: pointer;
+  transition: all .5s ease-out;
+
+  &__burger {
+    position: absolute;
+    right: 0;
+    top: 0.5rem;
+    width: 28px;
+    height: 3px;
+    background: #662D91;
+    transition: all .5s ease-out;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: -8px;
+      width: 28px;
+      height: 3px;
+      background: #662D91;
+      transition: all .5s ease-out;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 8px;
+      width: 28px;
+      height: 3px;
+      background: #662D91;
+      transition: all .5s ease-out;
+    }
+
+    &.open {
+      transform: rotate(720deg);
+      background: transparent;
+
+      &::before {
+        transform: rotate(45deg) translate(5px, 8px);
+        background: white;
+      }
+
+      &::after {
+        transform: rotate(-45deg) translate(3px, -7px);
+        background: white;
+      }
+    }
+  }
+}
+
+.nav-mobile {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 70%;
+  visibility: hidden;
+
+  &.open {
+    visibility: visible;
+  }
+
+  .menu-nav {
+    display: flex;
+    flex-flow: column wrap;
+    align-items: end;
+    justify-content: center;
+
+    padding-right: 2em;
+    height: 100vh;
+    overflow: hidden;
+    background: #662D91;
+    list-style-type: none;
+    padding-left: 1rem;
+    transition: all .5s ease-out;
+
+    &.open {
+      opacity: 1;
+    }
+
+    &__item {
+      transform: translateX(-100vw);
+      transition: all .5s ease-out;
+
+
+      &.open {
+        transform: translateX(0);
+      }
+
+      & > a {
+        color: white;
+        font-family: 'Avenir Next', Arial, Helvetica, sans-serif;
+      }
+    }
+
+    &__link {
+      display: inline-block;
+      font-size: 1.5rem;
+      padding: 0.5em 0;
+      font-weight: 300;
+      transition: all .5s ease-out;
+
+      &:hover {
+        color: #707070;
+      }
+    }
+  }
+}
+
+.nav-desktop {
+  display: none;
+}
+
+.nav-desktop > ul {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  & a {
+    text-decoration: none;
+  }
+
+  &:hover {
+    color: #707070;
+
+  }
+
+  li:not(:last-child) {
+    padding-right: 3em;
+  }
+}
+
+.social_media {
+  margin-top: 14em;
+  margin-right: 160px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.social_media img {
+  width: 25px;
+}
+
+.copyright_mobile img {
+  width: 12px;
+  padding-right: 10px;
+}
+
+.copyright_mobile {
+  display: flex;
+  flex-direction: row;
+  margin-top: 1.5em;
+}
+
+.copyright_mobile p, img {
+  color: #fff;
+}
+
+@media screen and (min-width: 768px) {
+  .menu-btn {
+    display: none;
+  }
+
+  .nav-mobile {
+    display: none;
+  }
+  .logo {
+    width: 195px;
+  }
+
+  .nav-desktop {
+    display: flex;
+    font-size: 1.3rem;
+  }
+}
+</style>
